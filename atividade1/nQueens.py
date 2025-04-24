@@ -108,21 +108,25 @@ while True:
                 preencherDiagonais(filho, i, j)
                 filho[i][j] = 2
                 funcaoHeuristicaUtilizada = funcaoHeuristica(filho)
-                if funcaoHeuristicaUtilizada > maiorFuncaoHeuristica:
+                if funcaoHeuristicaUtilizada >= maiorFuncaoHeuristica:
                     maiorFuncaoHeuristica = funcaoHeuristicaUtilizada
                     melhorFilho = filho
 
     # Se não houver mais filhos, encerra o loop e imprime o tabuleiro final
+    tabuleiro = melhorFilho
 
     print("Melhor filho selecionado:")
     printTabuleiro(tabuleiro)
     print("Função Heurística", maiorFuncaoHeuristica)
 
     if maiorFuncaoHeuristica == 0:  # Acabou a busca, não há mais filhos
+        # Limpa o tabuleiro, removendo os ataques
+        for i in range(len(tabuleiro)):
+            for j in range(len(tabuleiro[0])):
+                if tabuleiro[i][j] == 1:
+                    tabuleiro[i][j] = 0
 
         print("Tabuleiro final:")
         printTabuleiro(tabuleiro)
 
         break
-
-    tabuleiro = melhorFilho
