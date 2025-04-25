@@ -67,12 +67,24 @@ def preencherVerticalHorizontal(tabuleiro, y, x):
 
 
 # Função que conta quantas casas vazias existem na tabuleiro (ou seja, quantas rainhas ainda podem ser colocadas)
-def funcaoHeuristica(tabuleiro):
+def funcaoHeuristica(tabuleiro, rainhaY, rainhaX):
     contadorCasasVazias = 0
     for i in range(len(tabuleiro)):
         for j in range(len(tabuleiro[0])):
             if tabuleiro[i][j] == 0:
                 contadorCasasVazias += 1
+
+        # Verifica distância das rainhas das bordas, uma vez que, quanto mais longe estiverem, mais casas vazias existem
+        # (quanto mais para o centro, melhor)
+        if rainhaY >= len(tabuleiro) / 2 * 0.25 and rainhaY < len(tabuleiro) * 0.25:
+            contadorCasasVazias += 1
+
+        if (
+            rainhaX > len(tabuleiro[0]) / 2 * 0.25
+            and rainhaX <= len(tabuleiro[0]) * 0.25
+        ):
+            contadorCasasVazias += 1
+
     return contadorCasasVazias
 
 
@@ -107,7 +119,7 @@ while True:
                 preencherVerticalHorizontal(filho, i, j)
                 preencherDiagonais(filho, i, j)
                 filho[i][j] = 2
-                funcaoHeuristicaUtilizada = funcaoHeuristica(filho)
+                funcaoHeuristicaUtilizada = funcaoHeuristica(filho, i, j)
                 if funcaoHeuristicaUtilizada >= maiorFuncaoHeuristica:
                     maiorFuncaoHeuristica = funcaoHeuristicaUtilizada
                     melhorFilho = filho
